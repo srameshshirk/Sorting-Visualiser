@@ -3,7 +3,9 @@ import styles from './Sorting.module.css'
 
 export const Sorting = () => {
     const [generatedArray, setGeneratedArray] = useState([] as number[])
+    const [TimeTaken,setTimeTaken] = useState<number>(0)
     
+    //generateRandomArray();
 
     useEffect(()=>{
         generateRandomArray() 
@@ -25,22 +27,28 @@ export const Sorting = () => {
         arr[index2] = temp;
     }
 
+
     function generateRandomArray(): void{
-        let generatedArray: number[] = [];
+        let randomArray: number[] = [];
         //console.log(Math.floor(Math.random()*10))
         for(let i=1;i<30;i++){
-            generatedArray.push(Math.floor(Math.random()*10));
+            randomArray.push(Math.floor(Math.random()*10));
         }
 
-        setGeneratedArray(generatedArray);
+        setGeneratedArray(randomArray);
         //generatedArray.push()
     }
+
+
 
     function sleep(ms: number) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    
     async function bubbleSort(): Promise<void> {
+        let start = performance.now();
+        console.log("Timer has started");
         let arr = [...generatedArray]; 
         var size = arr.length;
     
@@ -49,17 +57,21 @@ export const Sorting = () => {
                 if (arr[j] > arr[j + 1]) {
                     swap(arr, j, j + 1);
                     setGeneratedArray([...arr]);
-                    await sleep(100);
+                    await sleep(10);
                 }
             }
         }
-        
+        let timeTaken = performance.now() - start;
+        console.log(timeTaken);
+        setTimeTaken(timeTaken*0.001);
     }
+    
+
 
     return (
         <>{renderArray()}
         <button onClick={generateRandomArray}> Generate an array </button>
-        <button onClick={bubbleSort}> Bubble Sort</button>
+        <button onClick={bubbleSort}> Bubble Sort</button> Timer : {TimeTaken}
         </>
     )
 }
