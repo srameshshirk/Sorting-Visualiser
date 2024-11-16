@@ -30,6 +30,32 @@ export const Sorting = () => {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    async function quickSort(arr: number[], low: number, high: number): Promise<void> {
+        if (low < high) {
+            const pi = await partition(arr, low, high);
+            await quickSort(arr, low, pi - 1);
+            await quickSort(arr, pi + 1, high);
+        }
+    }
+
+    async function partition(arr: number[], low: number, high: number): Promise<number> {
+        const pivot = arr[high];
+        let i = low - 1;
+
+        for (let j = low; j < high; j++) {
+            if (arr[j] < pivot) {
+                i++;
+                swap(arr, i, j);
+                setGeneratedArray([...arr]);
+                await sleep(10);
+            }
+        }
+        swap(arr, i + 1, high);
+        setGeneratedArray([...arr]);
+        await sleep(10);
+        return i + 1;
+    }
+
     
     async function bubbleSort(): Promise<void> {
         let start = performance.now();
@@ -76,7 +102,8 @@ export const Sorting = () => {
         <>{renderArray(generatedArray)}
         <button onClick={generateRandomArray}> Generate an array </button>
         <button onClick={bubbleSort}> Bubble Sort</button> 
-        <button onClick={insertionSort}> Insertion Sort </button>Timer : {TimeTaken}
+        <button onClick={insertionSort}> Insertion Sort </button>
+        <button onClick={() => quickSort(generatedArray, 0, generatedArray.length - 1)}>Quick Sort </button>Timer : {TimeTaken}
         </>
     )
 }
