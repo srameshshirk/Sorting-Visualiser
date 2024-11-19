@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { renderArray } from '../renderArray/renderArray';
+import ArrayGraph from '../renderArray/ArrayGraph';
 
 export const Sorting = () => {
     const [generatedArray, setGeneratedArray] = useState([] as number[])
@@ -93,13 +93,13 @@ export const Sorting = () => {
              }
          }
 
-        let timeTaken = performance.now() - start;
+        let timeTaken = performance.now() - start;   
         console.log(timeTaken);
         setTimeTaken(timeTaken*0.001);
     }
 
     return (
-        <>{renderArray(generatedArray)}
+        <><ArrayGraph array={generatedArray} />
         <button onClick={generateRandomArray}> Generate an array </button>
         <button onClick={bubbleSort}> Bubble Sort</button> 
         <button onClick={insertionSort}> Insertion Sort </button>
